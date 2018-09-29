@@ -135,7 +135,6 @@ export default class App extends Component {
   locationHandler = event => {
     let coords = event.nativeEvent.coordinate
 
-    //console.warn('first ------>',this.state.currentLocation)
     this.sendMyAddress(coords)
     this.setState(prevState => {
 
@@ -151,8 +150,8 @@ export default class App extends Component {
 
     this.map.animateToRegion({
       ...this.state.currentLocation,
-      latitude :  coords.latitude,
-      longitude : coords.longitude
+      latitude :  coords.latitude || 0, 
+      longitude : coords.longitude || 0
     })
 
   }
@@ -162,8 +161,8 @@ export default class App extends Component {
       const coordsEvent = {
         nativeEvent : {
           coordinate : {
-            latitude : pos.coords.latitude,
-            longitude :  pos.coords.longitude
+            latitude : pos.coords.latitude || 0,
+            longitude :  pos.coords.longitude || 0
           }
         }
       }
