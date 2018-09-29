@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Text, View, Image, StyleSheet, Dimensions, ScrollView, PermissionsAndroid} from 'react-native'
+import Geocoder from 'react-native-geocoder';
+import {View, Image, StyleSheet, Dimensions, ScrollView, DatePickerAndroid, TimePickerAndroid} from 'react-native'
 import RamagasImg from './assets/ramagas.jpg'
 import OrderButton from './components/orderButton/orderButton'
 import CompanyInfo from './components/CompanyInfo/CompanyInfo'
@@ -11,6 +12,8 @@ import Total from './components/Total/Total'
 
 import Success from './components/Success/Success'
 import MapView from './components/UserData/MapView'
+
+Geocoder.fallbackToGoogle('AIzaSyA7em6oHY9MFjO_Gl_itTQcev2COtmZEmc')
 
 const {width, height} = Dimensions.get('window')
 
@@ -37,10 +40,42 @@ export default class App extends Component {
         longitudeDelta : width / height * 0.0122
       },
 
+      address : '',
+      showMapView : false,
+      date : '00/00/00',
+      schedule : '00:00'
     }
 
   }
 
+  showMapView = () => {
+    this.setState( prevState => {
+      return  {
+        showMap : !prevState.showMap
+      }
+    })
+  }
+
+  geocoderMethod = (location) => {
+    Geocoder.geocodePosition(location).then( res => {
+      console.warn(res[0].formattedAddress)
+      this.setState( prevState => {
+        return {
+          address : prevState.address = res[0].formattedAddress
+        }
+      })
+    }).catch(err => {
+      console.warn('fail---->', err)
+    })
+  }
+
+  sendMyAddress = (coords) => {
+    let location = {
+      lat: coords.latitude,
+      lng: coords.longitude
+    }
+    this.geocoderMethod(location)
+  }
 
   boughtMethod = () => {
     this.setState( prevState => {
@@ -51,7 +86,47 @@ export default class App extends Component {
   }
 
   onDataPicker = () => {
-    alert('data picker')
+    try {
+      let today = new Date();
+      const {action, hour, minute} = DatePickerAndroid.open({
+        date: today,
+        minDate: new Date(),
+        maxDate: today.setDate(today.getDate()+2),
+        mode: 'calendar'
+      }).then(res => {
+        this.setState(prevState => {
+          return {
+            date : prevState.date = `${res.day}/${res.month}/${res.year}`
+          }
+        })
+        console.warn(res)
+      })
+    } catch ({code, message}) {
+      console.warn('Cannot open time picker', message);
+    }
+
+  }
+
+  onTimePicker = () => {
+    try {
+      let today = new Date();
+      const {action, hour, minute} = TimePickerAndroid.open({
+        hour: 14,
+        minute: 0,
+        is24Hour: false, // Will display '2 PM'
+        mode : 'clock'
+      }).then(res => {
+        this.setState(prevState => {
+          return {
+            schedule : prevState.schedule = `${res.hour}:${res.minute}`
+          }
+        })
+        console.warn(res)
+      })
+    } catch ({code, message}) {
+      console.warn('Cannot open time picker', message);
+    }
+
   }
 
   onMapView = () => {
@@ -67,8 +142,9 @@ export default class App extends Component {
     let coords = event.nativeEvent.coordinate
 
     //console.warn('first ------>',this.state.currentLocation)
-
+    this.sendMyAddress(coords)
     this.setState(prevState => {
+
       return {
         currentLocation : {
           ...prevState.currentLocation,
@@ -86,30 +162,6 @@ export default class App extends Component {
     })
 
   }
-
-  /*requestPositionPermission = () => {
-    function requestPermission() {
-      try {
-        const granted = PermissionsAndroid.request(
-          android.permission.ACCESS_FINE_LOCATION,
-          {
-            'title': 'Cool Photo App Camera Permission',
-            'message': 'Cool Photo App needs access to your camera ' +
-                       'so you can take awesome pictures.'
-          }
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.warn("You can use the camera")
-        } else {
-          console.warn("Camera permission denied")
-        }
-      } catch (err) {
-        console.warn(err)
-      }
-    }
-
-    requestPermission()
-  }*/
   
   getCurrentPosition = () => {
     navigator.geolocation.getCurrentPosition( pos => {
@@ -136,10 +188,11 @@ export default class App extends Component {
 
     let appearModal = this.state.isSuccess ? <Success onPress={this.boughtMethod}/> : null
     let showMap = this.state.showMap ? <MapView 
-                                          OnPress={this.locationHandler} 
-                                          Ref={ref=>this.map=ref} 
-                                          marker={this.state.marker} 
-                                          currentPosition={this.state.currentLocation}/> : null
+                                            OnCloseMap={this.showMapView}
+                                            OnPress={this.locationHandler} 
+                                            Ref={ref=>this.map=ref} 
+                                            marker={this.state.marker} 
+                                            currentPosition={this.state.currentLocation}/> : null
     return(
       <View>
         <ScrollView>
@@ -151,9 +204,18 @@ export default class App extends Component {
           <Image style={styles.imageContainer} source={RamagasImg}/>
           
           <CompanyInfo title={'RamaGas'}/>
-          <UserData onMapView={this.onMapView}/>
+          
+          <UserData
+            address={this.state.address}
+            onMapView={this.onMapView}
+            sendMyAddress={this.sendMyAddress}/>
+
           <PaymentInfo cardInfo={'* * * 2 3 2 4'}/>
-          <DeliveryDate onDataPicker={this.onDataPicker}/>
+          <DeliveryDate 
+            date={this.state.date}
+            schedule={this.state.schedule}
+            onTimePicker={this.onTimePicker} 
+            onDataPicker={this.onDataPicker}/>
           <OrderInfo/>
           <Total/>
 

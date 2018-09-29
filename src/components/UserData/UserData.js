@@ -45,7 +45,7 @@ export default (props) => {
 
         <View style={style.infoContent}>
           <Icon name="md-pin" size={15} color="#4F8EF7" />
-          <Text style={{marginLeft : 10, color: '#c1c1c1'}}>{props.title || 'Avenida Lopez Cotilla No.3231  Int. 2 Col. Providencia, Guadalajara Jalisco'}</Text>
+          <Text style={{marginLeft : 10, color: '#c1c1c1', width:'80%'}}>{props.address || 'Avenida Lopez Cotilla No.3231  Int. 2 Col. Providencia, Guadalajara Jalisco'}</Text>
         </View>
 
       </View>

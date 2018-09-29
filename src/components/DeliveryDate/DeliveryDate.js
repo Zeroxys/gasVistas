@@ -43,16 +43,20 @@ export default (props) => {
         <View style={style.infoContent}>
           <Icon name="ios-calendar" size={15} color="#4F8EF7"/>
           <Text style={{marginLeft : 10, color:'#556B6E', marginRight:25}}>{props.title || 'Fecha de entrega'}</Text>
-          <Text style={{color:'#c1c1c1', marginRight:10}}>{props.date || '23/03/18'}</Text>
-          <Text style={{color:'#c1c1c1'}}>{props.schedule || '9:50AM'}</Text>
+          
+          <TouchableOpacity onPress={props.onDataPicker}>
+            <Text style={{color:'#c1c1c1', marginRight:10}}>{props.date || '23/03/18'}</Text>
+          </TouchableOpacity>
+
+ 
+          <TouchableOpacity onPress={props.onTimePicker}>
+            <Text style={{color:'#c1c1c1'}}>{props.schedule || '9:50AM'}</Text>
+          </TouchableOpacity>
 
         </View>
 
       </View>
-      
-      <TouchableOpacity onPress={props.onDataPicker}>
-        <Icon name="md-arrow-forward" size={22} color="#4F8EF7" />
-      </TouchableOpacity>
+    
     </View>
   )
 }
