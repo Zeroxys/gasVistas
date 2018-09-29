@@ -58,14 +58,12 @@ export default class App extends Component {
 
   geocoderMethod = (location) => {
     Geocoder.geocodePosition(location).then( res => {
-      console.warn(res[0].formattedAddress)
       this.setState( prevState => {
         return {
           address : prevState.address = res[0].formattedAddress
         }
       })
     }).catch(err => {
-      console.warn('fail---->', err)
     })
   }
 
@@ -99,10 +97,8 @@ export default class App extends Component {
             date : prevState.date = `${res.day}/${res.month}/${res.year}`
           }
         })
-        console.warn(res)
       })
     } catch ({code, message}) {
-      console.warn('Cannot open time picker', message);
     }
 
   }
@@ -121,10 +117,8 @@ export default class App extends Component {
             schedule : prevState.schedule = `${res.hour}:${res.minute}`
           }
         })
-        console.warn(res)
       })
     } catch ({code, message}) {
-      console.warn('Cannot open time picker', message);
     }
 
   }

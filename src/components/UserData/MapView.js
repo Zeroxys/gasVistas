@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 export default class MyApp extends React.Component {
   constructor(props) {
     super(props)
-    console.warn(props.currentPosition)
   }
  
   render() {
