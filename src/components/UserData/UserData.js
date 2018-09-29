@@ -50,7 +50,7 @@ export default (props) => {
 
       </View>
       
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onMapView}>
         <Icon name="md-arrow-forward" size={22} color="#4F8EF7" />
       </TouchableOpacity>
     </View>

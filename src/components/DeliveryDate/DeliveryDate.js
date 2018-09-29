@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, Dimensions, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, Dimensions, StyleSheet, Modal, DatePickerAndroid} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width} = Dimensions.get('window')
@@ -35,6 +35,7 @@ const style =  StyleSheet.create({
 
 export default (props) => {
   return (
+
     <View style={style.container}>
 
       <View style={style.wrapper}>
@@ -44,11 +45,12 @@ export default (props) => {
           <Text style={{marginLeft : 10, color:'#556B6E', marginRight:25}}>{props.title || 'Fecha de entrega'}</Text>
           <Text style={{color:'#c1c1c1', marginRight:10}}>{props.date || '23/03/18'}</Text>
           <Text style={{color:'#c1c1c1'}}>{props.schedule || '9:50AM'}</Text>
+
         </View>
 
       </View>
       
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onDataPicker}>
         <Icon name="md-arrow-forward" size={22} color="#4F8EF7" />
       </TouchableOpacity>
     </View>
