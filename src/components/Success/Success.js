@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 export default (props) => {
   return(
     <Modal
+      onRequestClose={() => console.warn('bye')}
       animationType="slide"
       transparent={false}>
       <OrderButton 
@@ -61,28 +62,28 @@ export default (props) => {
         <View style={{flexDirection : 'row', alignItems:'baseline'}}>
           <Text style={{fontWeight:'bold', fontSize:50, color:'black'}}>9:50</Text>
           <Text style={{fontWeight:'light', fontSize:20}}>pm</Text></View>
-        <Text style={{fontWeight:'100', fontSize:16, color:'c1c1c1'}}>Hora estimada de entrega</Text>
+        <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>Hora estimada de entrega</Text>
       </View>
 
       <View style={styles.checks}>
         <View style={{flexDirection:'row'}}>
           <CheckBox value={true} disabled={true}/>
-          <Text style={{fontWeight:'100', fontSize:16, color:'c1c1c1'}}>Orden aceptada</Text>
+          <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>Orden aceptada</Text>
         </View>
 
         <View style={{flexDirection:'row'}}>
           <CheckBox value={true} disabled={true}/>
-          <Text style={{fontWeight:'100', fontSize:16, color:'c1c1c1'}}>En camino</Text>
+          <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>En camino</Text>
         </View>
 
         <View style={{flexDirection:'row'}}>
           <CheckBox disabled={true}/>
-          <Text style={{fontWeight:'100', fontSize:16, color:'c1c1c1'}}>Tu repartidor ya esta afuera de tu domicilio</Text>
+          <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>Tu repartidor ya esta afuera de tu domicilio</Text>
         </View>
 
         <View style={{flexDirection:'row'}}>
           <CheckBox disabled={true}/>
-          <Text style={{fontWeight:'100', fontSize:16, color:'c1c1c1'}}>Tú orden fue despachada</Text>
+          <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>Tú orden fue despachada</Text>
         </View>                        
       </View>
 

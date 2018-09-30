@@ -33,6 +33,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+
     defaultConfig {
         applicationId "com.test"
         minSdkVersion rootProject.ext.minSdkVersion

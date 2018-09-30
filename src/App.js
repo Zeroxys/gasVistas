@@ -64,6 +64,7 @@ export default class App extends Component {
         }
       })
     }).catch(err => {
+      console.warn('fail---->', err)
     })
   }
 
@@ -99,6 +100,7 @@ export default class App extends Component {
         })
       })
     } catch ({code, message}) {
+      console.warn('Cannot open time picker', message);
     }
 
   }
@@ -117,8 +119,10 @@ export default class App extends Component {
             schedule : prevState.schedule = `${res.hour}:${res.minute}`
           }
         })
+        console.warn(res)
       })
     } catch ({code, message}) {
+      console.warn('Cannot open time picker', message);
     }
 
   }
@@ -131,11 +135,19 @@ export default class App extends Component {
     })
   }
 
-
-  locationHandler = event => {
+  locationHandler = (event) => {
+    //console.warn(event)
     let coords = event.nativeEvent.coordinate
 
+    //console.warn(coords.latitude)
     this.sendMyAddress(coords)
+    
+    this.map.animateToRegion({
+      ...this.state.currentLocation,
+      latitude :  coords.latitude,
+      longitude : coords.longitude
+    },800)
+
     this.setState(prevState => {
 
       return {
@@ -148,11 +160,6 @@ export default class App extends Component {
       }
     })
 
-    this.map.animateToRegion({
-      ...this.state.currentLocation,
-      latitude :  coords.latitude || 0, 
-      longitude : coords.longitude || 0
-    })
 
   }
   
@@ -161,8 +168,8 @@ export default class App extends Component {
       const coordsEvent = {
         nativeEvent : {
           coordinate : {
-            latitude : pos.coords.latitude || 0,
-            longitude :  pos.coords.longitude || 0
+            latitude : pos.coords.latitude,
+            longitude :  pos.coords.longitude
           }
         }
       }
@@ -183,7 +190,7 @@ export default class App extends Component {
     let showMap = this.state.showMap ? <MapView 
                                             OnCloseMap={this.showMapView}
                                             OnPress={this.locationHandler} 
-                                            Ref={ref=>this.map=ref} 
+                                            Ref={ ref => this.map=ref } 
                                             marker={this.state.marker} 
                                             currentPosition={this.state.currentLocation}/> : null
     return(
