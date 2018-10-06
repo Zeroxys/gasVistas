@@ -19,19 +19,13 @@ const styles = StyleSheet.create({
 export default class MyApp extends React.Component {
   constructor(props) {
     super(props)
-    console.warn(props.currentPosition)
-  }
- 
-
-  _mapReady(){
-    console.warn(this.props.Ref);
+    //console.warn(props.currentPosition)
   }
 
   render() {
    return (
      <Modal onRequestClose={() => console.warn('bye')} style={styles.container}>
        <MapView
-         onMapReady = {this._mapReady.bind(this)}
          ref={this.props.Ref}
          marker = {this.props.marker}
          style={styles.map}

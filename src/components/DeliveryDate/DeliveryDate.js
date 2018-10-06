@@ -19,9 +19,9 @@ const style =  StyleSheet.create({
   },
 
   wrapper: {
-    width : width * .8,
+    width : width * .9,
     display: 'flex',
-    alignItems : 'flex-start'
+    alignItems : 'flex-start',
   },
 
   infoContent : {

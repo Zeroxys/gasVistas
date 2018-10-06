@@ -61,7 +61,7 @@ export default (props) => {
       <View style={styles.timeDelivery}>
         <View style={{flexDirection : 'row', alignItems:'baseline'}}>
           <Text style={{fontWeight:'bold', fontSize:50, color:'black'}}>9:50</Text>
-          <Text style={{fontWeight:'light', fontSize:20}}>pm</Text></View>
+          <Text style={{fontWeight:'100', fontSize:20}}>pm</Text></View>
         <Text style={{fontWeight:'100', fontSize:16, color:'#c1c1c1'}}>Hora estimada de entrega</Text>
       </View>
 

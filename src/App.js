@@ -30,7 +30,7 @@ export default class App extends Component {
     super()
     this.state = {
       isSuccess : false,
-      showMap : false,
+      showMap : true,
       marker : false,
 
       currentLocation : {
@@ -85,7 +85,8 @@ export default class App extends Component {
   }
 
   onDataPicker = () => {
-    try {
+    
+
       let today = new Date();
       const {action, hour, minute} = DatePickerAndroid.open({
         date: today,
@@ -98,10 +99,9 @@ export default class App extends Component {
             date : prevState.date = `${res.day}/${res.month}/${res.year}`
           }
         })
+      }).catch( err => {
+        console.warn('cannot open datapicker')
       })
-    } catch ({code, message}) {
-      console.warn('Cannot open time picker', message);
-    }
 
   }
 
@@ -119,7 +119,6 @@ export default class App extends Component {
             schedule : prevState.schedule = `${res.hour}:${res.minute}`
           }
         })
-        console.warn(res)
       })
     } catch ({code, message}) {
       console.warn('Cannot open time picker', message);
@@ -142,11 +141,11 @@ export default class App extends Component {
     //console.warn(coords.latitude)
     this.sendMyAddress(coords)
     
-    this.map.animateToRegion({
-      ...this.state.currentLocation,
-      latitude :  coords.latitude,
-      longitude : coords.longitude
-    },800)
+      this.map.animateToRegion({
+        ...this.state.currentLocation,
+        latitude :  coords.latitude,
+        longitude : coords.longitude
+      },800)
 
     this.setState(prevState => {
 
@@ -159,8 +158,6 @@ export default class App extends Component {
         marker : true
       }
     })
-
-
   }
   
   getCurrentPosition = () => {
@@ -182,7 +179,6 @@ export default class App extends Component {
   componentDidMount() {
     this.getCurrentPosition()
   }
-
 
   render(){
 
